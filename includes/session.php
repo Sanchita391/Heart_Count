@@ -93,3 +93,27 @@ function reset_run(): void
     $_SESSION['run_total'] = 0;
     unset($_SESSION['puzzle_solution']);
 }
+
+function login_is_locked(): bool
+{
+    return !empty($_SESSION['lock_until']) && time() < (int) $_SESSION['lock_until'];
+}
+
+function login_lock_remaining(): int
+{
+    return max(0, (int) ($_SESSION['lock_until'] ?? 0) - time());
+}
+
+function login_record_failure(): void
+{
+    $fails = (int) ($_SESSION['login_fails'] ?? 0) + 1;
+    $_SESSION['login_fails'] = $fails;
+    if ($fails >= 5) {
+        $_SESSION['lock_until'] = time() + 300;
+    }
+}
+
+function login_clear_failures(): void
+{
+    unset($_SESSION['login_fails'], $_SESSION['lock_until']);
+}

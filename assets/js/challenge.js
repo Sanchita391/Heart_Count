@@ -8,6 +8,7 @@ const errorText = document.getElementById("game-error-text");
 const play = document.getElementById("game-play");
 const finished = document.getElementById("game-finished");
 const image = document.getElementById("puzzle-image");
+const sourceEl = document.getElementById("puzzle-source");
 const resultText = document.getElementById("result-text");
 const answerText = document.getElementById("answer-text");
 const buttons = Array.from(document.querySelectorAll(".answer"));
@@ -67,6 +68,9 @@ async function loadPuzzle() {
             throw new Error("The puzzle image could not be loaded.");
         }
         image.src = data.image;
+        if (sourceEl) {
+            sourceEl.textContent = data.caption || "Heart API · answer checked on the server";
+        }
         timeLimit = data.time_limit;
         updateHud(data);
         showOnly(play);

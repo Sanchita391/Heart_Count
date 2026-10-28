@@ -42,8 +42,11 @@ require __DIR__ . '/includes/header.php';
         </div>
         <div class="timer-track" aria-hidden="true"><div id="timer-fill" class="timer-fill"></div></div>
         <p id="timer-label" class="timer-label">20s</p>
-        <h1 class="question">Enter the missing digit</h1>
-        <img id="puzzle-image" alt="Banana puzzle" width="280" height="280">
+        <h1 class="question">How many hearts do you see?</h1>
+        <div class="puzzle-frame">
+            <img id="puzzle-image" alt="Heart puzzle" width="280" height="280">
+        </div>
+        <p id="puzzle-source" class="source-caption"></p>
         <p id="result-text" class="result hidden" aria-live="polite"></p>
         <p id="answer-text" class="muted center hidden"></p>
         <p class="key-hint">On a keyboard, press 0 to 9.</p>

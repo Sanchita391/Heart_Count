@@ -6,6 +6,7 @@ const errorBox = document.getElementById("game-error");
 const errorText = document.getElementById("game-error-text");
 const play = document.getElementById("game-play");
 const image = document.getElementById("puzzle-image");
+const sourceEl = document.getElementById("puzzle-source");
 const resultText = document.getElementById("result-text");
 const answerText = document.getElementById("answer-text");
 const scoreEl = document.getElementById("stat-score");
@@ -56,6 +57,9 @@ async function loadPuzzle() {
             throw new Error(data.message || "Failed to load game");
         }
         image.src = data.image;
+        if (sourceEl) {
+            sourceEl.textContent = data.caption || "Heart API · answer checked on the server";
+        }
         updateStats(data);
         showOnly(play);
         locked = false;

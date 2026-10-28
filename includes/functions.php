@@ -1,3 +1,4 @@
+
 <?php
 
 function e(?string $value): string
@@ -46,7 +47,10 @@ function csrf_valid(): bool
     $sent = $_POST['csrf'] ?? '';
     $stored = $_SESSION['csrf'] ?? '';
 
-    return is_string($sent) && is_string($stored) && $stored !== '' && hash_equals($stored, $sent);
+    return is_string($sent)
+        && is_string($stored)
+        && $stored !== ''
+        && hash_equals($stored, $sent);
 }
 
 function validate_username(string $username): ?string
@@ -54,9 +58,11 @@ function validate_username(string $username): ?string
     if ($username === '') {
         return 'Please enter a username';
     }
+
     if (strlen($username) < 3) {
         return 'Username must be at least 3 characters';
     }
+
     if (strlen($username) > 50) {
         return 'Username must be 50 characters or fewer';
     }
@@ -69,6 +75,7 @@ function validate_email(string $email): ?string
     if ($email === '') {
         return 'Please enter your email';
     }
+
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return 'Please enter a valid email';
     }
@@ -81,6 +88,7 @@ function validate_password(string $password): ?string
     if ($password === '') {
         return 'Please enter your password';
     }
+
     if (strlen($password) < 6) {
         return 'Password must be at least 6 characters';
     }
@@ -100,6 +108,7 @@ function format_accuracy(int $score, int $total): string
 function format_date(string $value, bool $withTime = false): string
 {
     $time = strtotime($value);
+
     if ($time === false) {
         return '';
     }
@@ -112,6 +121,7 @@ function json_response(array $data, int $status = 200): void
     http_response_code($status);
     header('Content-Type: application/json; charset=UTF-8');
     header('Cache-Control: no-store');
+
     echo json_encode($data);
     exit;
 }

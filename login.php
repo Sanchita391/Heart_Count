@@ -19,12 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $emailError = validate_email($email);
-    $passwordError = validate_password($password);
     if ($emailError) {
         $errors[] = $emailError;
     }
-    if ($passwordError) {
-        $errors[] = $passwordError;
+    if ($password === '') {
+        $errors[] = 'Please enter your password';
+    }
+
+    if (login_is_locked()) {
+        $wait = login_lock_remaining();
+        $errors[] = 'Too many failed sign-ins. Try again in ' . $wait . ' seconds. This lock is stored in the PHP session.';
     }
 
     if (!$errors) {
@@ -34,8 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch();
 
             if (!$user || !password_verify($password, $user['password'])) {
-                $errors[] = 'Email or password is incorrect.';
+                login_record_failure();
+                $left = max(0, 5 - (int) ($_SESSION['login_fails'] ?? 0));
+                $errors[] = $left > 0
+                    ? 'Email or password is incorrect. ' . $left . ' attempt(s) left before a short lock.'
+                    : 'Email or password is incorrect. Sign-in is locked for 5 minutes.';
             } else {
+                login_clear_failures();
                 $update = db()->prepare('UPDATE users SET last_login = NOW() WHERE id = :id');
                 $update->execute([':id' => $user['id']]);
                 login_user($user);
@@ -56,8 +65,8 @@ require __DIR__ . '/includes/header.php';
     <svg class="heart-icon heart-icon-blue" viewBox="0 0 24 24" aria-hidden="true">
         <path fill="currentColor" d="M12 21s-6.7-4.4-9.3-8.2C.8 10.2 1.1 6.8 3.6 5.2 5.6 3.9 8.2 4.3 10 6.1L12 8.2l2-2.1c1.8-1.8 4.4-2.2 6.4-.9 2.5 1.6 2.8 5 1 7.6C18.7 16.6 12 21 12 21z"/>
     </svg>
-    <h1>Welcome Back</h1>
-    <p class="muted center">Sign in to continue playing Heart Game</p>
+    <h1>Welcome back</h1>
+    <p class="muted center">Your virtual identity starts with this sign-in.</p>
 
     <?php if ($errors): ?>
         <div class="form-errors" role="alert">

@@ -1,0 +1,12 @@
+Date/Week,Name,Progress
+"Week 1 (23–29 Sep 2026)",Sanchita Bhandari,"Reviewed the CIS046-3 brief and the existing HeartCount Flutter screens (splash, login, register, home, game, profile, statistics). Planned a PHP, JavaScript, HTML and CSS web version that keeps the same heart-counting game and screen flow."
+"Week 2 (30 Sep–6 Oct 2026)",Sanchita Bhandari,"Set up Git for the HeartCount web project. Created the XAMPP project folder, MySQL tables for users and game results, and the shared page layout (splash, header and footer)."
+"Week 3 (7–13 Oct 2026)",Sanchita Bhandari,"Connected PHP to the Heart API. Tested the JSON response (question image and heart count). PHP now requests the puzzle, stores the solution in the session, and sends only the image to the browser."
+"Week 4 (14–20 Oct 2026)",Sanchita Bhandari,"Built the practice game interface in HTML, CSS and JavaScript. Added digit buttons 1–9 with 0 centred, refresh and retry, and keyboard input 0–9. Connected answer clicks to PHP and showed Correct or Wrong before the next puzzle."
+"Week 5 (21–27 Oct 2026)",Sanchita Bhandari,"Implemented login, register and logout with hashed passwords, HttpOnly session cookies and CSRF tokens. Added user and admin roles so only an admin can open Manage Players. Protected the game, profile and statistics pages."
+"Week 6 (28 Oct–3 Nov 2026)",Sanchita Bhandari,"Added timed challenge (easy, medium, hard), lives, the leaderboard, and project notes covering version control, interoperability, event-driven programming and virtual identity. Rechecked the Heart API request and error handling."
+"Week 7 (4–10 Nov 2026)",Sanchita Bhandari,""
+"Week 8 (11–17 Nov 2026)",Sanchita Bhandari,""
+"Week 9 (18–24 Nov 2026)",Sanchita Bhandari,""
+"Week 10 (25 Nov–1 Dec 2026)",Sanchita Bhandari,""
+"Week 11 (2–8 Dec 2026)",Sanchita Bhandari,""

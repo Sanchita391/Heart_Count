@@ -26,8 +26,8 @@ function fetch_puzzle(): ?array
 
 function request_puzzle(): ?array
 {
-    // HTTP GET to the Banana API. Curl runs on the PHP server, not in the browser.
-    $ch = curl_init(BANANA_API_URL);
+    // HTTP GET to the Heart API. Curl runs on the PHP server, not in the browser.
+    $ch = curl_init(HEART_API_URL);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 12,
@@ -65,7 +65,15 @@ function request_puzzle(): ?array
     return [
         'image' => $image,
         'solution' => $solution,
+        'caption' => puzzle_caption($image),
     ];
+}
+
+function puzzle_caption(string $imageUrl): string
+{
+    $host = strtolower((string) (parse_url($imageUrl, PHP_URL_HOST) ?? 'heart-api'));
+
+    return 'Heart API · ' . $host . ' · count checked on the PHP server';
 }
 
 function record_answer(int $userId, int $answer, int $correct, bool $timedOut = false, ?bool $wasCorrect = null): bool
@@ -115,7 +123,7 @@ function user_stats(int $userId): ?array
 {
     $pdo = db();
     $userStmt = $pdo->prepare(
-        'SELECT id, username, email, total_games, games_won, games_lost, created_at
+        'SELECT id, username, email, total_games, games_won, games_lost, last_login, created_at
          FROM users WHERE id = :id'
     );
     $userStmt->execute([':id' => $userId]);

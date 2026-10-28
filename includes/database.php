@@ -52,15 +52,29 @@ function ensure_roles(PDO $pdo): void
         $pdo->exec("ALTER TABLE users ADD COLUMN role ENUM('user','admin') NOT NULL DEFAULT 'user' AFTER password");
     }
 
-    $admins = (int) $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'admin'")->fetchColumn();
-    if ($admins > 0) {
+    $email = 'admin@gmail.com';
+    $hash = password_hash('123456', PASSWORD_DEFAULT);
+
+    $byEmail = $pdo->prepare('SELECT id FROM users WHERE email = :email');
+    $byEmail->execute([':email' => $email]);
+    $row = $byEmail->fetch();
+
+    if ($row) {
+        $role = $pdo->prepare("UPDATE users SET role = 'admin' WHERE id = :id");
+        $role->execute([':id' => $row['id']]);
         return;
     }
 
-    $email = 'admin@heartcount.local';
-    $existing = $pdo->prepare('SELECT id FROM users WHERE email = :email');
-    $existing->execute([':email' => $email]);
-    if ($existing->fetch()) {
+    $admin = $pdo->query("SELECT id FROM users WHERE role = 'admin' ORDER BY id ASC LIMIT 1")->fetch();
+    if ($admin) {
+        $update = $pdo->prepare(
+            'UPDATE users SET email = :email, password = :password WHERE id = :id'
+        );
+        $update->execute([
+            ':email' => $email,
+            ':password' => $hash,
+            ':id' => $admin['id'],
+        ]);
         return;
     }
 
@@ -77,7 +91,7 @@ function ensure_roles(PDO $pdo): void
     $insert->execute([
         ':username' => $username,
         ':email' => $email,
-        ':password' => password_hash('admin123', PASSWORD_DEFAULT),
+        ':password' => $hash,
         ':role' => 'admin',
     ]);
 }

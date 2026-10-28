@@ -42,6 +42,8 @@ $rate = format_accuracy($won, $total);
             <h1><?= e($stats['user']['username']) ?></h1>
             <p class="muted"><?= e($stats['user']['email']) ?></p>
             <p class="player-label"><?= $user['role'] === 'admin' ? 'Administrator' : 'Heart Game Player' ?></p>
+            <p class="muted">Last login: <?= e(!empty($stats['user']['last_login']) ? format_date((string) $stats['user']['last_login'], true) . ' · ' . format_date((string) $stats['user']['last_login']) : 'This session') ?></p>
+            <p class="muted">Signed in with an HttpOnly PHP session. The role is checked on the server.</p>
         </section>
 
         <h2>Game Statistics</h2>

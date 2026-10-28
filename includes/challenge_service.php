@@ -71,7 +71,7 @@ function issue_puzzle(): array
 
     $puzzle = fetch_puzzle();
     if ($puzzle === null) {
-        throw new RuntimeException('The Banana API is unavailable. Please try again.');
+        throw new RuntimeException('The heart puzzle service is unavailable. Please try again.');
     }
 
     $match['solution'] = $puzzle['solution'];
@@ -211,6 +211,7 @@ function public_puzzle(array $match): array
 
     return public_match() + [
         'image' => $match['image'],
+        'caption' => puzzle_caption((string) $match['image']),
         'remaining' => round($remaining, 2),
     ];
 }

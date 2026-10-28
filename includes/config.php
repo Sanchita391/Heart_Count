@@ -13,9 +13,8 @@ define('DB_PASS', '');
 
 /**
  * Puzzle pictures come from Dr Marc Conrad's Heart API.
- * There is no API key. The response is JSON with "question" (image URL)
- * and "solution" (the heart count).
- * Parameter style is documented for the related Banana API:
- * https://marcconrad.com/uob/banana/doc.php
+ * There is no API key. A GET request returns JSON:
+ * "question" is an image URL, "solution" is how many hearts are in the picture (0-9).
+ * PHP calls the API so the browser never sees the solution first.
  */
-define('HEART_API_URL', 'http://marcconrad.com/uob/heart/api.php?out=json');
+define('HEART_API_URL', 'https://marcconrad.com/uob/heart/api.php?out=json');

@@ -1,5 +1,5 @@
 <?php
-// Practice API. GET loads a Banana API picture. POST checks the digit.
+// Practice API. GET loads a Heart API picture. POST checks the heart count.
 // The correct digit stays in the PHP session. The browser only receives the image.
 
 require_once __DIR__ . '/../includes/bootstrap.php';
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && ($_GET['action'] ?? '') === 'new') {
     if ($puzzle === null) {
         json_response([
             'status' => 'error',
-            'message' => 'The Banana API is unavailable. Please try again.',
+            'message' => 'The heart puzzle service is unavailable. Please try again.',
         ], 502);
     }
 
@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && ($_GET['action'] ?? '') === 'new') {
     json_response([
         'status' => 'success',
         'image' => $puzzle['image'],
+        'caption' => $puzzle['caption'],
         'score' => $stats['score'],
         'total' => $stats['total'],
         'accuracy' => $stats['accuracy'],
